@@ -28,10 +28,10 @@ Christoph Michel.
 
 
 ## Splash screen.
-![User](https://raw.githubusercontent.com/UlisesFS-ISC/interview-test/interview_UlisesFS/docs/splashScreen.gif)
+![User](https://raw.githubusercontent.com/UlisesFS-ISC/interview-test/interview_UlisesFS/docs/splashScreen.png)
 
 ## Log-in.
-![Login](https://raw.githubusercontent.com/UlisesFS-ISC/TimerBolt-ReactNative/master/docs/logIn.gif)
+![Login](https://raw.githubusercontent.com/UlisesFS-ISC/TimerBolt-ReactNative/master/docs/auth.gif)
 
 ## Timers.
 ![Timers](https://raw.githubusercontent.com/UlisesFS-ISC/TimerBolt-ReactNative/master/docs/chronoPomodoro.gif)
