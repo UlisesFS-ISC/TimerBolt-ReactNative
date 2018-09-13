@@ -1,0 +1,35 @@
+{
+  "expo": {
+    "name": "Timerbolt",
+    "description": "Keep track of your activities.",
+    "slug": "Timerbolt",
+    "privacy": "public",
+    "sdkVersion": "27.0.0",
+    "platforms": ["android"],
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "package": "com.kensei.timerbolt",
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyCp-BUoX8B8699rkbnb2P2CK4gXSeesVcc"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "main": "node_modules/expo/AppEntry.js",
+  "scripts": {
+    "start": "react-native-scripts start",
+    "eject": "react-native-scripts eject",
+    "android": "react-native-scripts android",
+    "ios": "react-native-scripts ios",
+    "test": "jest"
+  },
+  "private": true,
+  "dependencies": {
+    "@expo/vector-icons": "^6.3.1",
+    "axios": "^0.18.0",
+    "expo": "^27.0.1",
+    "firebase": "^5.0.2",
+    "immutable": "^3.8.2",
+    "native-base": "^2.4.3",
+    "prop-types": "^15.6.1",
+    "react": "16.3.1",
+    "react-native": "https://github.com/expo/react-native/archive/sdk-27.0.0.tar.gz",
+    "react-native-circular-progress": "^1.0.1",
+    "react-native-router-flux": "^4.0.0-beta.28",
+    "react-native-svg": "^6.5.2",
+    "react-native-web": "^0.8.9",
+    "react-redux": "^5.0.7",
+    "redux": "^4.0.0",
+    "redux-thunk": "^2.2.0",
+    "uuid": "^3.2.1"
+  },
+  "devDependencies": {
+    "react-native-gifted-chat": "^0.4.3"
+  }
+}
