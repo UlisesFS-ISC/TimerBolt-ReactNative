@@ -28,7 +28,7 @@ Christoph Michel.
 
 
 ## Splash screen.
-![User](https://raw.githubusercontent.com/UlisesFS-ISC/interview-test/interview_UlisesFS/docs/splashScreen.png)
+![User](https://raw.githubusercontent.com/UlisesFS-ISC/TimerBolt-ReactNative/master/docs/splashScreen.png)
 
 ## Log-in.
 ![Login](https://raw.githubusercontent.com/UlisesFS-ISC/TimerBolt-ReactNative/master/docs/auth.gif)
