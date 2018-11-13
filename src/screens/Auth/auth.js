@@ -8,6 +8,12 @@ import {
   TextInput
 } from "react-native";
 import {Actions} from 'react-native-router-flux';
+import {Header, Left, Body, Title} from 'native-base';
+
+import getScreenStyles from "../screen-styles";
+import SpinnerScreen from "../../components/SpinnerScreen/spinner-screen-component";
+
+const screenStyles = getScreenStyles();
 
 const styles = StyleSheet.create({
   authContainer: {
@@ -60,6 +66,19 @@ const styles = StyleSheet.create({
 });
 
 export default class Auth extends Component {
+
+  static Header(){
+    return (<Header style={screenStyles.header}>
+          <Left>
+           
+          </Left>
+          <Body>
+            <Title>Authentication</Title>
+          </Body>
+
+        </Header>);
+  }
+
   static FormTypeChangeSection({ authFormType, setFormType }) {
     let nextForm, message;
     if (authFormType === "LOG_IN") {
@@ -216,7 +235,7 @@ export default class Auth extends Component {
 
   componentDidUpdate() {
     if (this.props.token !== "") {
-      Actions.TimeEntries();
+      Actions.UserPanel();
     }
    }
 
@@ -257,7 +276,7 @@ export default class Auth extends Component {
   };
 
   render() {
-    let { AuthForm, FormTypeChangeSection } = Auth;
+    let { Header, AuthForm, FormTypeChangeSection } = Auth;
     let { authFormType, logIn, signUp, serviceCallFlag, setFormType } = this.props;
     let {
       isValid,
@@ -269,12 +288,12 @@ export default class Auth extends Component {
     let { userName, email, password, confirmPassword } = this.state;
     if (serviceCallFlag) {
       return (
-        <View style={styles.authContainer}>
-          <Text style={styles.title}>Loading...</Text>
-        </View>
+        <SpinnerScreen />
       );
     } else
       return (
+        <View >
+        <Header />
         <View style={styles.authContainer}>
           <AuthForm
             userName={userName}
@@ -294,6 +313,7 @@ export default class Auth extends Component {
             authFormType={authFormType}
             setFormType={setFormType}
           />
+        </View>
         </View>
       );
   }

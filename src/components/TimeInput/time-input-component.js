@@ -43,7 +43,7 @@ const TimeInputs = ({ setTime, hour, min, sec }) => {
     <View style={styles.timeRow}>
       <View style={styles.input}>
         <TextInput
-          value={hour}
+          
           maxLength={2}
           keyboardType="numeric"
           placeholder={"HH"}
@@ -53,7 +53,7 @@ const TimeInputs = ({ setTime, hour, min, sec }) => {
       </View>
       <View style={styles.input}>
         <TextInput
-          value={min}
+         
           maxLength={2}
           keyboardType="numeric"
           placeholder={"MM"}
@@ -63,7 +63,7 @@ const TimeInputs = ({ setTime, hour, min, sec }) => {
       </View>
       <View style={styles.input}>
         <TextInput
-          value={sec}
+         
           maxLength={2}
           keyboardType="numeric"
           placeholder={"SS"}

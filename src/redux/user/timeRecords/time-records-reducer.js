@@ -9,29 +9,28 @@ const initialState = fromJS({
 const TimeRecordsReducer = (state = initialState, action) => {
   switch (action.type) {
     case "TIME_RECORDS_GET_CALL_FULFILLED": {
-      let { msg } = action.response.data;
-      let entries = new Map();
-      msg.forEach(timeRecord => {
-        let formatedRecord = fromJS(timeRecord);
-        entries = entries.set(formatedRecord.get("name"), formatedRecord);
+       let { entries } = action.response.data;
+      let stateEntries = state.get('entries');
+      entries.forEach(timeRecord => {
+        stateEntries = stateEntries.set(timeRecord["uuid"], fromJS(timeRecord));
       });
-      return state.set("entries", entries);
+      return state.set("entries", stateEntries);
     }
     case "TIME_RECORDS_DELETE_CALL_FULFILLED": {
-      let { entryName } = action;
-      return state.deleteIn(["entries", entryName]);
+      let { uuid } = action;
+      return state.deleteIn(["entries", uuid]);
     }
     case "TIME_RECORDS_INSERT_CALL_FULFILLED": {
-      let { entry } = action;
-      return state.setIn(["entries", entry.name], fromJS(entry));
+      let entry  = fromJS(action.entry);
+      return state.setIn(["entries", entry.get('uuid')], entry);
     }
     case "TIME_RECORDS_SERVICE_CALL_FAILED": {
       let { error } = action;
       return state.set("timeRecordsError", error);
     }
-    case "TOGGLE_SERVICE_CALL_FLAG": {
-      let toggledFlag = !state.get("serviceCallFlag");
-      return state.set("serviceCallFlag", toggledFlag);
+    case "SET_SERVICE_CALL_FLAG": {
+      let {value} = action;
+      return state.set("serviceCallFlag", value);
     }
     case "RESET_TIME_RECORDS": {
       return initialState;

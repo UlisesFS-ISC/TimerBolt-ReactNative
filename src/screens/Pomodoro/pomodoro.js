@@ -1,8 +1,13 @@
 import React, { Component } from "react";
 import { StyleSheet, Text, View } from "react-native";
+import {Header, Left, Body, Title} from 'native-base';
 
+
+import getScreenStyles from "../screen-styles";
 import DynamicButtonGroup from "../../components/DynamicButtonGroup/dynamic-button-group-component";
 import TimeCircle from "../../components/TimeCircle/time-circle-component";
+
+const screenStyles = getScreenStyles();
 
 const styles = StyleSheet.create({
   container: {
@@ -14,6 +19,19 @@ const styles = StyleSheet.create({
 });
 
 export default class Pomodoro extends Component {
+
+  static Header(){
+    return (<Header style={screenStyles.header}>
+          <Left>
+           
+          </Left>
+          <Body>
+            <Title>Pomodoro</Title>
+          </Body>
+
+        </Header>);
+  }
+
   onStart = () => {
     let { setPomodoroStatus } = this.props;
     setPomodoroStatus("STARTED");
@@ -67,6 +85,7 @@ export default class Pomodoro extends Component {
   render() {
     let { onStart, onStop, onPause, pomodoroRun } = this;
     let { pomodoroState, productivityRunDuration, restRunDuration, status, mode, min, sec, runs } = this.props;
+    let {Header} = Pomodoro;
 
     let timeLimit =
       pomodoroState === "PRODUCTIVITY"
@@ -78,22 +97,25 @@ export default class Pomodoro extends Component {
     }
 
     return (
-      <View style={styles.container}>
-      <TimeCircle 
-            min={min}
-            sec={sec}
+      <View>
+      <Header />
+        <View style={styles.container}>
+        <TimeCircle 
+              min={min}
+              sec={sec}
+              status={status}
+              mode={mode}
+              pomodoroState={pomodoroState}
+              pomodoroMaxValue={timeLimit}
+            />
+          <Text>Productivity runs: {runs}</Text>
+          <DynamicButtonGroup
             status={status}
-            mode={mode}
-            pomodoroState={pomodoroState}
-            pomodoroMaxValue={timeLimit}
+            onStart={onStart}
+            onStop={onStop}
+            onPause={onPause}
           />
-        <Text>Productivity runs: {runs}</Text>
-        <DynamicButtonGroup
-          status={status}
-          onStart={onStart}
-          onStop={onStop}
-          onPause={onPause}
-        />
+        </View>
       </View>
     );
   }

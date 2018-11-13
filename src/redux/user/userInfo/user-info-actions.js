@@ -1,5 +1,5 @@
 import { logIn, signUp } from "../../../services/Auth/auth";
-import {serviceCallAlert} from "../../../components/Alert/alert-component";
+import {showToast} from '../../../utils/toast-utils';
 
 const logInCallFulfilled = (token, userName) => {
   return {
@@ -26,18 +26,18 @@ const setFormType = formType => {
 const logInCallAction = (name, password) => {
   return dispatch => {
     dispatch(toggleServiceCallFlag());
-    logIn(name, password)
+   logIn(name, password)
       .then(response => {
         let { success, token } = response.data;
         if (success) {
           dispatch(logInCallFulfilled(token, name));
           response.data.msg = `Welcome ${name}`;
         } 
-        serviceCallAlert(response.data);
+        showToast({success, message: response.data.msg});
         dispatch(toggleServiceCallFlag());
       })
       .catch(error => {
-        alert({success: false, msg: error.message});
+        showToast({error});
         authCallFailed(error.message);
         dispatch(toggleServiceCallFlag());
       });
@@ -51,9 +51,10 @@ const signUpCallAction = (name, password, email) => {
       .then(response => {
         serviceCallAlert(response.data);      
         dispatch(toggleServiceCallFlag());
+        showToast({success:response.success, message: response.msg});
       })
       .catch(error => {
-        serviceCallAlert({success: false, msg: error.message});
+        showToast({error});
         authCallFailed(error.message);
         dispatch(toggleServiceCallFlag());
       });

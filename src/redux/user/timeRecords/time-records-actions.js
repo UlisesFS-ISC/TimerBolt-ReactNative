@@ -2,19 +2,21 @@ import {
   getEntries,
   insertEntry,
   deleteEntry
-} from "../../../services/UserData/timer-entries";
-import {serviceCallAlert} from "../../../components/Alert/alert-component";
+} from "../../../services/UserData/time-records";
+import {showToast} from "../../../utils/toast-utils";
 
 const timeRecordsGetServiceCall = (token) => {
   return dispatch => {
-    dispatch(toggleServiceCallFlag());
+    dispatch(setServiceCallFlag(false));
     getEntries(token)
       .then(response => {
         dispatch(timeRecordsGetCallFulfilled(response));
+        dispatch(setServiceCallFlag(true));
       })
       .catch(error => {
         serviceCallAlert(error.message);
         timeRecordsServiceCallFailed(error.message);
+        dispatch(setServiceCallFlag(true));
       });
   };
 };
@@ -27,31 +29,22 @@ const timeRecordsGetCallFulfilled = response => {
 };
 
 const timeRecordsInsertServiceCall = (
-  entryName,
-  timeElapsed,
-  userName,
-  email,
-  token
+  token,
+  entry
 ) => {
   return dispatch => {
-    insertEntry(entryName, timeElapsed, token)
+    insertEntry(token, entry)
       .then(response => {
         if (response.data.success) {
           dispatch(
-            timeRecordsInsertCallFulfilled({
-              name: entryName,
-              timeelapsed: timeElapsed,
-              dateposted: new Date().toDateString(),
-              user: userName,
-              email: email
-            })
+            timeRecordsInsertCallFulfilled(response.data.entry)
           );
-          serviceCallAlert({success: true, msg: 'Activity saved'});
+        showToast({success: true, message: 'Activity saved'});
         } else
-        serviceCallAlert({success: false, msg: 'Could not save this activity'});
+        showToast({success: false, message: 'Could not save this activity'});
       })
       .catch(error => {
-        serviceCallAlert({success: false, msg: error.message});
+        showToast({error});
         timeRecordsServiceCallFailed(error.message);
       });
   };
@@ -64,26 +57,32 @@ const timeRecordsInsertCallFulfilled = entry => {
   };
 };
 
-const timeRecordsDeleteServiceCall = (token, entry) => {
+const timeRecordsDeleteServiceCall = (token, uuid) => {
   return dispatch => {
-    deleteEntry(token, entry)
+    dispatch(setServiceCallFlag(false));
+    deleteEntry(token, uuid)
       .then(response => {
         if (response.data.success) {
-          dispatch(timeRecordsDeleteCallFulfilled(entry.get("name")));
-        } 
-        serviceCallAlert(response.data)
+          dispatch(setServiceCallFlag(true));
+          dispatch(timeRecordsDeleteCallFulfilled(uuid));
+          showToast({success: true, message: 'Activity deleted'});
+        } else {
+          showToast({success: false, message: 'Activity cant be deleted'});
+        }
       })
       .catch(error => {
+        dispatch(setServiceCallFlag(true));
+        showToast({error});
         serviceCallAlert({success: false, msg: error.message});
         timeRecordsServiceCallFailed(error.message);
       });
   };
 };
 
-const timeRecordsDeleteCallFulfilled = entryName => {
+const timeRecordsDeleteCallFulfilled = uuid => {
   return {
     type: "TIME_RECORDS_DELETE_CALL_FULFILLED",
-    entryName
+    uuid
   };
 };
 
@@ -94,9 +93,10 @@ const timeRecordsServiceCallFailed = error => {
   };
 };
 
-const toggleServiceCallFlag = () => {
+const setServiceCallFlag = value => {
   return {
-    type: "TOGGLE_SERVICE_CALL_FLAG"
+    type: "SET_SERVICE_CALL_FLAG",
+    value
   };
 };
 
@@ -114,6 +114,6 @@ export const timeRecordsActions = {
   timeRecordsDeleteServiceCall,
   timeRecordsDeleteCallFulfilled,
   timeRecordsServiceCallFailed,
-  toggleServiceCallFlag,
+  setServiceCallFlag,
   resetTimeRecords
 };

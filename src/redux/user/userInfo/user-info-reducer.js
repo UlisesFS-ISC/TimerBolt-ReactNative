@@ -6,7 +6,7 @@ const authFormTypes = {
 };
 
 const initialState = fromJS({
-  token: "",
+  token: '',
   userName: "",
   authForm: {
     authFormType: authFormTypes.AUTH_LOG_IN,

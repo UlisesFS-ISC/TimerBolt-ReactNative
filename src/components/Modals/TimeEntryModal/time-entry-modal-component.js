@@ -7,83 +7,62 @@ import {
   View
 } from "react-native";
 
-const styles = StyleSheet.create({
-  timeEntryModalContainer: {
-    flexDirection: "column",
-    alignItems: "stretch",
-    padding: 10,
-    margin: 10,
-    backgroundColor: "dodgerblue"
-  },
-  timeEntryActions: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    alignItems: "stretch",
-    padding: 20,
-    margin: 10
-  },
-  timeEntryLabel: {
-    fontWeight: "bold",
-    color: "white",
-    fontSize: 16
-  },
-  timeEntryField: {
-    fontWeight: "100",
-    color: "white",
-    fontSize: 16
-  }
-});
+import getModalStyles from '../modal-styles';
 
-const TimeEntryModal = ({ modalEntry, deleteEntry, hideModal }) => {
+const modalStyles = getModalStyles();
+
+const TimeEntryModal = ({ visible, modalEntry, hideModal }) => {
   return (
+     <View style={modalStyles.overlay}>
     <Modal
-    style={styles.timeEntryModalContainer}
       animationType="slide"
-      transparent={false}
-      visible={modalEntry.size > 1}
+      transparent={true}
+      visible={visible}
        onRequestClose={() => {}}
     >
-      <View style={styles.timeEntryModalContainer}>
-        <Text style={styles.timeEntryLabel}>
+      <View style={modalStyles.modalContainer}>
+      <View style={modalStyles.modalEntryDescription}>
+        <Text style={modalStyles.modalBoldText}>
           {`Activity name:  `}
-          <Text style={styles.timeEntryField}>{modalEntry.get("name")}</Text>
+          <Text style={modalStyles.modalText}>{modalEntry.get("timeEntryName")}</Text>
         </Text>
-        <Text style={styles.timeEntryLabel}>
+        <Text style={modalStyles.modalBoldText}>
           {`Activity duration:  `}
-          <Text style={styles.timeEntryField}>
-            {modalEntry.get("timeelapsed")}
+          <Text style={modalStyles.modalText}>
+            {modalEntry.get("timeElapsed")}
           </Text>
         </Text>
-        <Text style={styles.timeEntryLabel}>
+         <Text style={modalStyles.modalBoldText}>
+          {`Activity tag:  `}
+          <Text style={modalStyles.modalText}>
+            {modalEntry.get("activityTag", "N/A")}
+          </Text>
+        </Text>
+        <Text style={modalStyles.modalBoldText}>
+          {`Timer entry type:  `}
+          <Text style={modalStyles.modalText}>
+            {modalEntry.get("timerType", "N/A")}
+          </Text>
+        </Text>
+        <Text style={modalStyles.modalBoldText}>
           {`Date:  `}
-          <Text style={styles.timeEntryField}>
-            {modalEntry.get("dateposted")}
+          <Text style={modalStyles.modalText}>
+            {modalEntry.get("datePosted")}
           </Text>
         </Text>
-        <Text style={styles.timeEntryLabel}>
-          {`Performed by:  `}
-          <Text style={styles.timeEntryField}>{modalEntry.get("user")}</Text>
-        </Text>
-        <View style={styles.timeEntryActions}>
-          <TouchableHighlight
-            onPress={() => {
-              deleteEntry();
-              hideModal();
-            }}
-          >
-            <Text>Delete entry</Text>
-          </TouchableHighlight>
-
+      </View>
+        <View style={modalStyles.modalNavigationActions}>
           <TouchableHighlight
             onPress={() => {
               hideModal();
             }}
           >
-            <Text>Return</Text>
+            <Text style={modalStyles.modalBoldText}>Return</Text>
           </TouchableHighlight>
         </View>
       </View>
     </Modal>
+    </View>
   );
 };
 

@@ -1,10 +1,15 @@
 import React, { Component } from "react";
 import { StyleSheet, Text, View } from "react-native";
+import {Header, Left, Body, Title} from 'native-base';
 
+
+import getScreenStyles from "../screen-styles";
 import TimeInputs from "../../components/TimeInput/time-input-component";
 import TimeEntryPromptModal from "../../components/Modals/TimeEntryPromptModal/time-entry-prompt-modal-component";
 import DynamicButtonGroup from "../../components/DynamicButtonGroup/dynamic-button-group-component";
 import TimeCircle from "../../components/TimeCircle/time-circle-component";
+
+const screenStyles = getScreenStyles();
 
 const styles = StyleSheet.create({
   container: {
@@ -16,12 +21,23 @@ const styles = StyleSheet.create({
 });
 
 export default class Timer extends Component {
+
+  static Header({mode}){
+    return (<Header style={screenStyles.header}>
+          <Left>
+           
+          </Left>
+          <Body>
+            <Title>{mode}</Title>
+          </Body>
+
+        </Header>);
+  }
   constructor(props) {
     super();
     this.state = {
       activityTime: "",
-      entryName: "",
-      modal: false
+      modalVisible: false
     };
   }
 s
@@ -34,16 +50,10 @@ s
     });
   };
 
-  setEntryName = value => {
-    this.setState({
-      entryName: value
-    });
-  };
 
-  toggleModal = () => {
-    let { modal } = this.state;
+  toggleModal = value => {
     this.setState({
-      modal: !modal
+      modalVisible: value
     });
   };
 
@@ -82,7 +92,7 @@ s
         setCountdown(--hour, 59, 59);
       } else {
         onStop();
-        if (token !== "") toggleModal();
+        if (token !== "") toggleModal(true);
         else alert("countdown has finished");
       }
     }, 1000);
@@ -107,35 +117,30 @@ s
       onPause,
       timerRun,
       chronometerRun,
-      setEntryName,
       toggleModal
     } = this;
-    let { entryName, activityTime, modal } = this.state;
+    let {activityTime, modalVisible } = this.state;
     let {
       mode,
       chronometer,
       countdown,
       setChronometer,
       setCountdown,
-      userName,
       token,
-      timeRecordsInsertServiceCall
+      insertEntry
     } = this.props;
-
+    let {Header} = Timer;
     let status, hour, min, sec;
     let timeInputs, dynamicButtonGroup, modalView = <View />;
 
-    if (modal && token !== "") {
+    if (modalVisible && token !== "") {
       modalView = (
      <TimeEntryPromptModal
-       visible={modal}
-       toggleModal={toggleModal}
-       insertEntry={timeRecordsInsertServiceCall}
-       changeEntryName={setEntryName}
-       entryName={entryName}
-       timeElapsed={activityTime}
-       userName={userName}
-       token={token}
+     timerType={mode}
+     visible={modalVisible}
+     toggleModal={toggleModal}
+     insertEntry={insertEntry(token)}
+     timeElapsed={activityTime}
      />
    );
  }
@@ -189,6 +194,7 @@ s
       }
 
     return (<View>
+    <Header mode={mode}/>
     <View style={styles.container}>
           <TimeCircle 
             hour={hour}

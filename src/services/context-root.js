@@ -1,1 +1,1 @@
-export const API_CONTEXT_ROOT = "https://apitimerbolt.herokuapp.com";
+export const API_CONTEXT_ROOT = "https://timerboltapi2.herokuapp.com";

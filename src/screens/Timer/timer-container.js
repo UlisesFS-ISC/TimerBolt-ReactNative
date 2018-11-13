@@ -21,22 +21,7 @@ const mapDispatchToProps = dispatch => {
     setCountdown: (hour, min, sec) =>
     dispatch(timerActions.setCountdown(hour, min, sec)),
     setTimerStatus: (status, mode) => dispatch(timerActions.setTimerStatus(status, mode)),
-    timeRecordsInsertServiceCall: (
-      entryName,
-      timeElapsed,
-      userName,
-      email,
-      token
-    ) =>
-      dispatch(
-        timeRecordsActions.timeRecordsInsertServiceCall(
-          entryName,
-          timeElapsed,
-          userName,
-          email,
-          token
-        )
-      )
+    insertEntry: token => entry => dispatch(timeRecordsActions.timeRecordsInsertServiceCall(token, entry))
   };
 };
 

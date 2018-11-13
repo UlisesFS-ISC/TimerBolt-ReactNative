@@ -40,8 +40,8 @@ const initialState = fromJS({
     pomodoroState: POMODORO_STATES.PRODUCTIVITY,
     productivityRunDuration: POMODORO_STANDARD_RUN_VALUES.PRODUCTIVITY,
     restRunDuration: POMODORO_STANDARD_RUN_VALUES.REST,
-    min: 24,
-    sec: 53,
+    min: 0,
+    sec: 0,
     runs: 0
   }
 });
